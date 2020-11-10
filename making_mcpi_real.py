@@ -69,7 +69,7 @@ class Player:
                  is_admin=False) -> None:
         self.id = id
         self.is_admin = is_admin
-        assert(sword_type in ("wood", "gold", ""))
+        assert(sword_type in ("wood", "gold", "stone", "iron", "diamond"))
         self.sword = Sword(sword_type, enchantments)
 
     def upgrade_sword(self, material="next") -> None:
@@ -151,5 +151,6 @@ while True:
                 game.post_to_chat("Steve Pi " + event.entityId +
                                   " created a crafter")
                 
-                if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == )):
+                if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5
+                        and game.getBlock())):
                     Player.get_player(event.entityId)
