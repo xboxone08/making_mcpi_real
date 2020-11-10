@@ -33,7 +33,7 @@ class Sword:
         else:
             raise UnknownSwordTypeError
 
-    def enchant(self, enchantment) -> None:
+    def enchant(self, enchantment: str) -> None:
         # Enchants to max level as per Pocket Edition specifications.
         if enchantment == "sharpness" or enchantment == "fire_aspect":
             self.enchantments.append(enchantment)
@@ -65,11 +65,11 @@ class Sword:
 
 
 class Player:
-    def __init__(self, id: int, sword_type="wood", enchantments=[],
+    def __init__(self, id: int, sword_type="none", enchantments=[],
                  is_admin=False) -> None:
         self.id = id
         self.is_admin = is_admin
-        assert(sword_type in ("wood", "gold", "stone", "iron", "diamond"))
+        assert(sword_type in ("none", "wood", "gold", "stone", "iron", "diamond"))
         self.sword = Sword(sword_type, enchantments)
 
     def upgrade_sword(self, material="next") -> None:
@@ -123,21 +123,9 @@ while True:
                               event.pos.z - 1, 246)
                 game.setBlock(event.pos.x - 1, event.pos.y,
                               event.pos.z + 1, 246)
-                sleep(45)
-                # Make Nether Reactor Core "finished"
-                game.setBlock(event.pos, 247, 2)
-                # Turn glowing obsidian back into obsidian
-                game.setBlock(event.pos.x + 1, event.pos.y,
-                              event.pos.z + 1, 49)
-                game.setBlock(event.pos.x - 1, event.pos.y,
-                              event.pos.z - 1, 49)
-                game.setBlock(event.pos.x + 1, event.pos.y,
-                              event.pos.z - 1, 49)
-                game.setBlock(event.pos.x - 1, event.pos.y,
-                              event.pos.z + 1, 49)
 
                 game.postToChat("StevePi " + event.entityId +
-                                " created an enchanter")
+                                " activated an enchanter")
 
             # Crafter
             if (game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 58  # Crafting table
@@ -151,6 +139,10 @@ while True:
                 game.post_to_chat("Steve Pi " + event.entityId +
                                   " created a crafter")
                 
-                if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5
-                        and game.getBlock())):
-                    Player.get_player(event.entityId)
+                if game.getBlock(event.pos.x, event.pos.y + 1, event.pos.z) == 5:
+                    if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5
+                            and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 5)
+
+                            or (game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1)
+                            and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1))):
+                        Player.get_player(event.entityId).upgrade_sword()
