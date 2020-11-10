@@ -37,7 +37,7 @@ class Sword:
         # Enchants to max level as per Pocket Edition specifications.
         if enchantment == "sharpness" or enchantment == "fire_aspect":
             self.enchantments.append(enchantment)
-    
+
     def get_attack_damage(self) -> int:
         # Numbers are from Pocket Edition
         if self.type == "wood" or self.type == "gold":
@@ -48,7 +48,7 @@ class Sword:
             return 7
         elif self.type == "diamond":
             return 8
-    
+
     def get_attack_damage_with_enchantments(self) -> float:
         # Assumes Sharpness V, the enchanter always enchants to max level.
         if "sharpness" in self.enchantments:
@@ -63,6 +63,7 @@ class Sword:
         else:
             return self.get_attack_damage()
 
+
 class Player:
     def __init__(self, id: int, sword_type="wood", enchantments=[],
                  is_admin=False) -> None:
@@ -76,7 +77,7 @@ class Player:
 
     def enchant_sword(self, enchantment: str) -> None:
         self.sword.enchant(enchantment)
-    
+
     @staticmethod
     def get_player(player_id: int):
         for symbol in globals():
@@ -91,7 +92,8 @@ class Player:
 
 while True:
     # Recognizing players
-    admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="diamond", enchantments=["sharpness", "fire_aspect"], is_admin=True)
+    admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="diamond", enchantments=[
+                           "sharpness", "fire_aspect"], is_admin=True)
     counter: int = 1
     for player in game.getPlayerEntityIds():
         Player(player[counter])
@@ -100,30 +102,54 @@ while True:
     events = game.pollBlockHits()
 
     for event in events:
-        if (game.getBlock(event.pos.x, event.pos.y, event.pos.z) == 247  # Nether Reactor Core
-                and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 57  # Diamond
-                and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 57
-                and game.getBlock(event.pos.x, event.pos.y, event.pos.z + 1) == 57
-                and game.getBlock(event.pos.x, event.pos.y, event.pos.z - 1) == 57
-                and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z + 1) == 49  # Obsidian
-                and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 49
-                and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z - 1) == 49
-                and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z + 1) == 49):
-            # Make Nether Reactor Core "initialized"
-            game.setBlock(event.pos, 247, 1)
-            # Replace obsidian with glowing obsidian
-            game.setBlock(event.pos.x + 1, event.pos.y, event.pos.z + 1, 246)
-            game.setBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1, 246)
-            game.setBlock(event.pos.x + 1, event.pos.y, event.pos.z - 1, 246)
-            game.setBlock(event.pos.x - 1, event.pos.y, event.pos.z + 1, 246)
-            sleep(45)
-            # Make Nether Reactor Core "finished"
-            game.setBlock(event.pos, 247, 2)
-            # Turn glowing obsidian back into obsidian
-            game.setBlock(event.pos.x + 1, event.pos.y, event.pos.z + 1, 49)
-            game.setBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1, 49)
-            game.setBlock(event.pos.x + 1, event.pos.y, event.pos.z - 1, 49)
-            game.setBlock(event.pos.x - 1, event.pos.y, event.pos.z + 1, 49)
+        if game.getBlock(event.pos) == 247:  # Nether Reactor Core
+            # Enchanter
+            if (game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 57  # Diamond
+                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 57
+                    and game.getBlock(event.pos.x, event.pos.y, event.pos.z + 1) == 57
+                    and game.getBlock(event.pos.x, event.pos.y, event.pos.z - 1) == 57  # Obsidian
+                    and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z + 1) == 49
+                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 49
+                    and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z - 1) == 49
+                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z + 1) == 49):
+                # Make Nether Reactor Core "initialized"
+                game.setBlock(event.pos, 247, 1)
+                # Replace obsidian with glowing obsidian
+                game.setBlock(event.pos.x + 1, event.pos.y,
+                              event.pos.z + 1, 246)
+                game.setBlock(event.pos.x - 1, event.pos.y,
+                              event.pos.z - 1, 246)
+                game.setBlock(event.pos.x + 1, event.pos.y,
+                              event.pos.z - 1, 246)
+                game.setBlock(event.pos.x - 1, event.pos.y,
+                              event.pos.z + 1, 246)
+                sleep(45)
+                # Make Nether Reactor Core "finished"
+                game.setBlock(event.pos, 247, 2)
+                # Turn glowing obsidian back into obsidian
+                game.setBlock(event.pos.x + 1, event.pos.y,
+                              event.pos.z + 1, 49)
+                game.setBlock(event.pos.x - 1, event.pos.y,
+                              event.pos.z - 1, 49)
+                game.setBlock(event.pos.x + 1, event.pos.y,
+                              event.pos.z - 1, 49)
+                game.setBlock(event.pos.x - 1, event.pos.y,
+                              event.pos.z + 1, 49)
 
-            game.postToChat("StevePi " + event.entityId +
-                            " created an enchanter")
+                game.postToChat("StevePi " + event.entityId +
+                                " created an enchanter")
+
+            # Crafter
+            if (game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 58  # Crafting table
+                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 58
+                    and game.getBlock(event.pos.x, event.pos.y, event.pos.z + 1) == 58
+                    and game.getBlock(event.pos.x, event.pos.y, event.pos.z - 1) == 58
+                    and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z + 1) == 58
+                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 58
+                    and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z - 1) == 58
+                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z + 1) == 58):
+                game.post_to_chat("Steve Pi " + event.entityId +
+                                  " created a crafter")
+                
+                if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == )):
+                    Player.get_player(event.entityId)
