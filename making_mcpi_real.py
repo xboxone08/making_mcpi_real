@@ -1,5 +1,4 @@
 import mcpi.minecraft as minecraft
-from time import sleep
 
 game = minecraft.Minecraft.create()
 
@@ -7,6 +6,12 @@ game = minecraft.Minecraft.create()
 class UnknownSwordTypeError(ValueError):
     """The type of sword you passed to the Sword constructor was not
     recognized.
+    """
+    pass
+
+
+class UnknownEnchantmentError(ValueError):
+    """The enchantment you tried to add doesn't exist
     """
     pass
 
@@ -41,6 +46,8 @@ class Sword:
         # Enchants to max level as per Pocket Edition specifications.
         if enchantment == "sharpness" or enchantment == "fire_aspect":
             self.enchantments.append(enchantment)
+        else:
+            raise UnknownEnchantmentError
 
     def get_attack_damage(self) -> int:
         # Numbers are from Pocket Edition
@@ -146,6 +153,7 @@ while True:
                 game.post_to_chat("Steve Pi " + event.entityId +
                                   " created a crafter")
                 
+                # Wooden sword
                 if game.getBlock(event.pos.x, event.pos.y + 1, event.pos.z) == 5:
                     if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5
                             and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 5)
@@ -153,3 +161,20 @@ while True:
                             or (game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1)
                             and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1))):
                         Player.get_player(event.entityId).craft_sword()
+                        game.postToChat("Steve Pi " + event.entityId + " made a wooden sword")
+                
+                # Stone sword
+                if game.getBlock(event.pos.x, event.pos.y + 1, event.pos.z + 1) == 4:
+                    if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 4
+                            and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 5)
+                            or
+                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 4
+                            and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5)
+                            or
+                            (game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 4
+                            and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 5)
+                            or
+                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 4
+                            and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 5)):
+                            Player.get_player(event.entityId).upgrade_sword("stone")
+                            game.postToChat("Steve Pi " + event.entityId + " made a wooden sword")
