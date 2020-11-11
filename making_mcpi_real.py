@@ -15,6 +15,10 @@ class Sword:
     def __init__(self, sword_type: str, enchantments: list) -> None:
         self.type = sword_type
         self.enchantments = enchantments
+    
+    def create(self, material="wood"):
+        if self.type == "none":
+            self.type = material if material in ("wood", "gold", "stone", "iron", "diamond") else self.type
 
     def upgrade(self, material="next") -> None:
         if material == "next":
@@ -71,6 +75,9 @@ class Player:
         self.is_admin = is_admin
         assert(sword_type in ("none", "wood", "gold", "stone", "iron", "diamond"))
         self.sword = Sword(sword_type, enchantments)
+    
+    def create_sword(self, material="wood") -> None:
+        self.sword.create()
 
     def upgrade_sword(self, material="next") -> None:
         self.sword.upgrade(material)
@@ -145,4 +152,4 @@ while True:
 
                             or (game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1)
                             and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1))):
-                        Player.get_player(event.entityId).upgrade_sword()
+                        Player.get_player(event.entityId).craft_sword()
