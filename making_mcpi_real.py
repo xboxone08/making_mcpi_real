@@ -1,4 +1,9 @@
 import mcpi.minecraft as minecraft
+import pygame
+
+pygame.init()
+
+clock = pygame.time.Clock()
 
 game = minecraft.Minecraft.create()
 
@@ -77,6 +82,8 @@ class Sword:
 
 
 class Player:
+    clock.tick(1)
+
     def __init__(self, id: int, sword_type="none", enchantments=[],
                  is_admin=False) -> None:
         self.id = id
@@ -104,6 +111,7 @@ class Player:
             else:
                 return None
 
+iteration = 1
 
 while True:
     # Recognizing players
@@ -114,126 +122,16 @@ while True:
         Player(player[counter])
         counter += 1
 
+    if iteration % 5 == 0:
+        for x in range(125):
+            for y in range(-65, 60):
+                for z in range(125):
+                    game.getBlock()
+
     events = game.pollBlockHits()
 
     for event in events:
         if game.getBlock(event.pos) == 247:  # Nether Reactor Core
-            # Enchanter
-            if (game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 57  # Diamond
-                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 57
-                    and game.getBlock(event.pos.x, event.pos.y, event.pos.z + 1) == 57
-                    # Obsidian
-                    and game.getBlock(event.pos.x, event.pos.y, event.pos.z - 1) == 57
-                    and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z + 1) == 49
-                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 49
-                    and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z - 1) == 49
-                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z + 1) == 49):
-                # Make Nether Reactor Core "initialized"
-                game.setBlock(event.pos, 247, 1)
-                # Replace obsidian with glowing obsidian
-                game.setBlock(event.pos.x + 1, event.pos.y,
-                              event.pos.z + 1, 246)
-                game.setBlock(event.pos.x - 1, event.pos.y,
-                              event.pos.z - 1, 246)
-                game.setBlock(event.pos.x + 1, event.pos.y,
-                              event.pos.z - 1, 246)
-                game.setBlock(event.pos.x - 1, event.pos.y,
-                              event.pos.z + 1, 246)
-
-                game.postToChat("StevePi " + event.entityId +
-                                " activated an enchanter")
-
-            # Crafter
-            if (game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 58  # Crafting table
-                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 58
-                    and game.getBlock(event.pos.x, event.pos.y, event.pos.z + 1) == 58
-                    and game.getBlock(event.pos.x, event.pos.y, event.pos.z - 1) == 58
-                    and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z + 1) == 58
-                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 58
-                    and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z - 1) == 58
-                    and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z + 1) == 58):
-                game.post_to_chat("Steve Pi " + event.entityId +
-                                  " created a crafter")
-
-                # Wooden sword
-                if game.getBlock(event.pos.x, event.pos.y + 1, event.pos.z) == 5:
-                    if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5
-                            and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 5)
-
-                            or (game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1)
-                                and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1))):
-                        Player.get_player(event.entityId).create_sword()
-                        game.postToChat(
-                            "Steve Pi " + event.entityId + " made a wooden sword")
-
-                # Gold Sword
-                if game.getBlock(event.pos.x, event.pos.y + 1, event.pos.z) == 41:
-                    if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 41
-                            and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 41
-                             and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 41
-                             and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 41
-                             and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 5)):
-                        Player.get_player(
-                            event.entityId).upgrade_sword("gold")
-                        game.postToChat(
-                            "Steve Pi " + event.entityId + " made a gold sword")
-
-                # Stone sword
-                if game.getBlock(event.pos.x, event.pos.y + 1, event.pos.z) == 4:
-                    if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 4
-                            and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 4
-                             and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 4
-                             and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 4
-                             and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 5)):
-                        Player.get_player(
-                            event.entityId).upgrade_sword("stone")
-                        game.postToChat(
-                            "Steve Pi " + event.entityId + " made a stone sword")
-                
-                # Iron sword
-                if game.getBlock(event.pos.x, event.pos.y + 1, event.pos.z + 1) == 42:
-                    if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 42
-                            and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 42
-                             and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 42
-                             and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 42
-                             and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 5)):
-                        Player.get_player(
-                            event.entityId).upgrade_sword("iron")
-                        game.postToChat(
-                            "Steve Pi " + event.entityId + " made a iron sword")
-                
-                # Diamond sword
-                if game.getBlock(event.pos.x, event.pos.y + 1, event.pos.z + 1) == 57:
-                    if ((game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 57
-                            and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z - 1) == 57
-                             and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z + 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 57
-                             and game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 5)
-                            or
-                            (game.getBlock(event.pos.x - 1, event.pos.y + 1, event.pos.z + 1) == 57
-                             and game.getBlock(event.pos.x + 1, event.pos.y + 1, event.pos.z - 1) == 5)):
-                        Player.get_player(
-                            event.entityId).upgrade_sword("diamond")
-                        game.postToChat(
-                            "Steve Pi " + event.entityId + " made a diamond sword")
+            pass
+    
+    iteration += 1
