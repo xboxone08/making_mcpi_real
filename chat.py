@@ -1,4 +1,4 @@
-from making_mcpi_real import game
+from making_mcpi_real import *
 
 while True:
     command = input()
