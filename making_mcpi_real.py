@@ -1,11 +1,10 @@
 import mcpi.minecraft as minecraft
 from random import choice
-
-game = minecraft.Minecraft.create()
-
 from classes import *
 import pygame
 import chat
+
+game = minecraft.Minecraft.create()
 
 pygame.init()
 
@@ -14,6 +13,7 @@ clock = pygame.time.Clock()
 iteration: int = 1
 
 while True:
+    # Prevents lag, slow fps
     clock.tick(1)
 
     # Recognizing players
@@ -24,6 +24,7 @@ while True:
         Player(player[counter])
         counter += 1
 
+    # REALLY prevents lag. Run once every 5 frames.
     if iteration % 5 == 0:
         for x in range(256):
             for y in range(-196, 61):
@@ -36,32 +37,40 @@ while True:
     for event in events:
         if game.getBlock(event.pos) == 46:  # TNT
             game.setBlock(event.pos, 46, 1)  # Primeable TNT
+        # Setting spawnpoint using bed
         elif game.getBlock(event.pos) == 26:
-            if game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 0 and game.getBlock(event.pos.x - 1,
-                                                                                                   event.pos.y + 1,
-                                                                                                   event.pos.z - 1)\
-                    and game.getBlock(
-                    event.pos.x - 1,
-                    event.pos.y - 1,
-                    event.pos.z - 1):
+            if (game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 0
+                    and game.getBlock(event.pos.x - 1,
+                                      event.pos.y + 1,
+                                      event.pos.z - 1)
+                    and game.getBlock(event.pos.x - 1,
+                                      event.pos.y - 1,
+                                      event.pos.z - 1)):
                 Player.get_player(event.entityId).spawnpoint = Vec3()
-            elif game.getBlock(event.pos.x, event.pos.y, event.pos.z + 1) == 0 and game.getBlock(event.pos.x,
-                                                                                                 event.pos.y + 1,
-                                                                                                 event.pos.z + 1)\
-                    and game.getBlock(
-                    event.pos.x - 1,
-                    event.pos.y - 1,
-                    event.pos.z - 1):
+            elif (game.getBlock(event.pos.x, event.pos.y, event.pos.z + 1) == 0
+                  and game.getBlock(event.pos.x,
+                                    event.pos.y + 1,
+                                    event.pos.z + 1)
+                  and game.getBlock(
+                                    event.pos.x - 1,
+                                    event.pos.y - 1,
+                                    event.pos.z - 1)):
                 pass
-            elif game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 0 and game.getBlock(event.pos.x + 1,
-                                                                                                 event.pos.y + 1,
-                                                                                                 event.pos.z)\
-                    and game.getBlock(
-                    event.pos.x - 1,
-                    event.pos.y - 1,
-                    event.pos.z - 1):
+            elif (game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 0
+                  and game.getBlock(event.pos.x + 1,
+                                    event.pos.y + 1,
+                                    event.pos.z)
+                  and game.getBlock(event.pos.x - 1,
+                                    event.pos.y - 1,
+                                    event.pos.z - 1)):
                 pass
             else:
                 rand_dir: str = choice(("SE", "SW", "NE", "W"))
+                if rand_dir == "W" and game.getBlock(event.pos.x - 1, event.pos.y - 1, event.pos.z - 1) and \
+                        game.getBlock(
+                            event.pos.x - 1,
+                            event.pos.y - 1,
+                            event.pos.z - 1):
+                    pass
 
     iteration += 1
