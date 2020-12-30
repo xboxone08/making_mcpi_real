@@ -82,8 +82,6 @@ class Sword:
 
 
 class Player:
-    clock.tick(1)
-
     def __init__(self, id: int, sword_type="none", enchantments=[],
                  is_admin=False) -> None:
         self.id = id
@@ -111,12 +109,14 @@ class Player:
             else:
                 return None
 
-iteration = 1
+iteration: int = 1
 
 while True:
+    clock.tick(1)
+    
     # Recognizing players
-    admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="diamond", enchantments=[
-                           "sharpness", "fire_aspect"], is_admin=True)
+    admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="diamond", enchantments={
+                           "sharpness": 5, "fire_aspect": 2}, is_admin=True)
     counter: int = 1
     for player in game.getPlayerEntityIds():
         Player(player[counter])
@@ -126,7 +126,7 @@ while True:
         for x in range(125):
             for y in range(-65, 60):
                 for z in range(125):
-                    game.getBlock()
+                    game.getBlock(x, y, z)
 
     events = game.pollBlockHits()
 
