@@ -1,6 +1,6 @@
-import making_mcpi_real as main
+from making_mcpi_real import game
 
 while True:
     command = input()
     if command[0] != "/":
-        main.game.postToChat("<StevePi_0> [ADMIN]" + command)
+        game.postToChat("<StevePi_0> [ADMIN]" + command)
