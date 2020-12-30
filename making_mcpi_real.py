@@ -1,4 +1,5 @@
 import mcpi.minecraft as minecraft
+from mcpi.vec3 import Vec3
 import pygame
 
 pygame.init()
@@ -6,6 +7,14 @@ pygame.init()
 clock = pygame.time.Clock()
 
 game = minecraft.Minecraft.create()
+
+if open("world_spawn.dat").read() == "":
+    y = 60
+    while True:
+        if game.getBlock(0, y, 0) != 0:
+            break
+        y -= 1
+    del y
 
 
 class UnknownSwordTypeError(ValueError):
@@ -84,10 +93,11 @@ class Sword:
 class Player:
     def __init__(self, id: int, sword_type="none", enchantments=[],
                  is_admin=False) -> None:
-        self.id = id
-        self.is_admin = is_admin
+        self.id: int = id
+        self.is_admin: bool = is_admin
         assert(sword_type in ("none", "wood", "gold", "stone", "iron", "diamond"))
-        self.sword = Sword(sword_type, enchantments)
+        self.sword: Sword = Sword(sword_type, enchantments)
+        self.spawnpoint = 
 
     def create_sword(self, material="wood") -> None:
         self.sword.create()
@@ -113,7 +123,7 @@ iteration: int = 1
 
 while True:
     clock.tick(1)
-    
+
     # Recognizing players
     admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="diamond", enchantments={
                            "sharpness": 5, "fire_aspect": 2}, is_admin=True)
@@ -123,15 +133,18 @@ while True:
         counter += 1
 
     if iteration % 5 == 0:
-        for x in range(125):
-            for y in range(-65, 60):
-                for z in range(125):
-                    game.getBlock(x, y, z)
+        for x in range(256):
+            for y in range(-195, 60):
+                for z in range(128):
+                    if game.getBlock(x, y, z) in (58, 49, ):
+                        pass
 
     events = game.pollBlockHits()
 
     for event in events:
-        if game.getBlock(event.pos) == 247:  # Nether Reactor Core
-            pass
+        if game.getBlock(event.pos) == 46:  # TNT
+            game.setBlock(event.pos, 46, 1)  # Primable TNT
+        elif game.getBlock(event.pos) == 26:
+            get_player(event.entityId).spawnpoint = event.pos.x
     
     iteration += 1
