@@ -1,4 +1,6 @@
+from _internal import world_spawn
 from errors import *
+
 
 class Sword:
     def __init__(self, sword_type: str, enchantments: list) -> None:
@@ -21,11 +23,11 @@ class Sword:
             elif self.type == "iron":
                 self.type = "diamond"
             else:
-                raise UnknownSwordTypeError
+                raise UnknownSwordError
         elif material in ("gold", "stone", "iron", "diamond"):
             self.type = material
         else:
-            raise UnknownSwordTypeError
+            raise UnknownSwordError
 
     def enchant(self, enchantment: str) -> None:
         # Enchants to max level as per Pocket Edition specifications.
@@ -65,9 +67,9 @@ class Player:
                  is_admin=False) -> None:
         self.id: int = id
         self.is_admin: bool = is_admin
-        assert(sword_type in ("none", "wood", "gold", "stone", "iron", "diamond"))
+        assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond"))
         self.sword: Sword = Sword(sword_type, enchantments)
-        self.spawnpoint =
+        self.spawnpoint = world_spawn
 
     def create_sword(self, material="wood") -> None:
         self.sword.create()
@@ -83,7 +85,7 @@ class Player:
         for symbol in globals():
             if type(globals().get(symbol)) == Player:
                 if globals().get(symbol).id == player_id:
-                    return globals.get(symbol)
+                    return globals().get(symbol)
                 else:
                     return None
             else:
