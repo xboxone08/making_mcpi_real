@@ -30,14 +30,13 @@ class Sword:
             raise UnknownSwordError
 
     def enchant(self, enchantment: str) -> None:
-        # Enchants to max level as per Pocket Edition specifications.
         if enchantment == "sharpness" or enchantment == "fire_aspect":
             self.enchantments.append(enchantment)
         else:
             raise UnknownEnchantmentError
 
     def get_attack_damage(self) -> int:
-        # Numbers are from Pocket Edition
+        # Numbers are from Bedrock Edition
         if self.type == "wood" or self.type == "gold":
             return 5
         elif self.type == "stone":

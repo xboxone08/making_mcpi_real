@@ -26,7 +26,7 @@ while True:
 
     if iteration % 5 == 0:
         for x in range(256):
-            for y in range(-195, 60):
+            for y in range(-196, 61):
                 for z in range(128):
                     if game.getBlock(x, y, z) in (58, 49,):
                         pass
