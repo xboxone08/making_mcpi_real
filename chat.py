@@ -1,4 +1,6 @@
-from making_mcpi_real import *
+import mcpi.minecraft as minecraft
+
+game = minecraft.Minecraft.create()
 
 while True:
     command = input()
