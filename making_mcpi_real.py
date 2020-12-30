@@ -2,7 +2,6 @@ import mcpi.minecraft as minecraft
 from random import choice
 from classes import *
 import pygame
-import chat
 
 game = minecraft.Minecraft.create()
 
