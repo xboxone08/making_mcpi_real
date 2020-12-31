@@ -1,6 +1,6 @@
 import mcpi.minecraft as minecraft
 from random import choice
-from classes import *
+from _classes import *
 import pygame
 
 game = minecraft.Minecraft.create()
