@@ -38,38 +38,47 @@ while True:
             game.setBlock(event.pos, 46, 1)  # Primeable TNT
         # Setting spawnpoint using bed
         elif game.getBlock(event.pos) == 26:
+            # NW
             if (game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 0
                     and game.getBlock(event.pos.x - 1,
                                       event.pos.y + 1,
-                                      event.pos.z - 1)
+                                      event.pos.z - 1) == 0
                     and game.getBlock(event.pos.x - 1,
                                       event.pos.y - 1,
-                                      event.pos.z - 1)):
+                                      event.pos.z - 1)) != 0:
                 Player.get_player(event.entityId).spawnpoint = Vec3()
+
+            # S
             elif (game.getBlock(event.pos.x, event.pos.y, event.pos.z + 1) == 0
                   and game.getBlock(event.pos.x,
                                     event.pos.y + 1,
-                                    event.pos.z + 1)
+                                    event.pos.z + 1) == 0
                   and game.getBlock(
                                     event.pos.x - 1,
                                     event.pos.y - 1,
-                                    event.pos.z - 1)):
+                                    event.pos.z - 1) != 0) != 0:
                 pass
+
+            # E
             elif (game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 0
                   and game.getBlock(event.pos.x + 1,
                                     event.pos.y + 1,
-                                    event.pos.z)
+                                    event.pos.z) == 0
                   and game.getBlock(event.pos.x - 1,
                                     event.pos.y - 1,
-                                    event.pos.z - 1)):
+                                    event.pos.z - 1) != 0):
                 pass
             else:
                 rand_dir: str = choice(("SE", "SW", "NE", "W"))
-                if rand_dir == "W" and game.getBlock(event.pos.x - 1, event.pos.y - 1, event.pos.z - 1) and \
-                        game.getBlock(
+                if (rand_dir == "W" and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 0
+                        and game.getBlock(
+                            event.pos.x - 1,
+                            event.pos.y + 1,
+                            event.pos.z) == 0
+                        and game.getBlock(
                             event.pos.x - 1,
                             event.pos.y - 1,
-                            event.pos.z - 1):
+                            event.pos.z) != 0):
                     pass
 
     iteration += 1
