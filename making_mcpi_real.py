@@ -11,20 +11,22 @@ clock = pygame.time.Clock()
 
 iteration: int = 1
 
+# Recognize first player to join as admin
+admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="diamond", enchantments={
+        "sharpness": 5, "fire_aspect": 2}, is_admin=True)
+
 while True:
-    # Prevents lag, slow fps
+    # Prevents lag, VERY slow fps
     clock.tick(1)
 
     # Recognizing players
-    admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="diamond", enchantments={
-        "sharpness": 5, "fire_aspect": 2}, is_admin=True)
     counter: int = 1
     for player in game.getPlayerEntityIds():
         Player(player[counter])
         counter += 1
 
-    # REALLY prevents lag. Run once every 5 frames.
-    if iteration % 5 == 0:
+    # REALLY prevents lag. Run once every **10** frames (10secs).
+    if iteration % 10 == 0:
         for x in range(256):
             for y in range(-196, 61):
                 for z in range(128):

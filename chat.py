@@ -1,5 +1,6 @@
 import mcpi.minecraft as minecraft
 from subprocess import Popen
+from time import sleep
 import pygame
 
 pygame.init()
@@ -9,6 +10,8 @@ clock = pygame.time.Clock()
 game = minecraft.Minecraft.create()
 
 Popen(["/usr/bin/python3", "/home/pi/Documents/making_mcpi_real/making_mcpi_real.py"])
+
+sleep(10)
 
 while True:
     clock.tick(1)
