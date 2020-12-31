@@ -3,7 +3,7 @@ from subprocess import Popen
 
 game = minecraft.Minecraft.create()
 
-Popen('"/home/pi/Documents/making_mcpi_real/making_mcpi_real.py"')
+Popen(['/usr/bin/python3', '"/home/pi/Documents/making_mcpi_real/making_mcpi_real.py"'])
 
 while True:
     command = input()
