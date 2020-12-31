@@ -16,12 +16,12 @@ sleep(10)
 while True:
     clock.tick(1)
 
-    command = input()
+    command = input(">")
     if command[0] != "/":
         game.postToChat("<StevePi_0> [ADMIN] " + command)
     else:
         if command[:7].lower() == "/sword":
             for line in open("sword.dat").read().split("\n"):
                 if line[:line.index("=")] == "0":
-                    game.postToChat(line[line.index("=") + 1:])
+                    game.postToChat("[@]" + line[line.index("=") + 1:])
                     break

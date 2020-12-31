@@ -2,15 +2,14 @@ from making_mcpi_real import game
 from mcpi.vec3 import Vec3
 from errors import *
 
+enchantments = ("Protection", "Fire Protection", "Feather Falling", "Blast Protection", "Projectile Protection")
+
 
 def get_enchantment_id(enchantment):
-    with (
-            "Protection", "Fire Protection", "Feather Falling", "Blast Protection", "Projectile Protection",
-            ) as enchantments:
-        if enchantment in enchantments:
-            return enchantments.index(enchantment)
-        else:
-            raise UnknownEnchantmentError
+    if enchantment in enchantments:
+        return enchantments.index(enchantment)
+    else:
+        raise UnknownEnchantmentError
 
 
 if open("world_spawn.dat").read() == "":
