@@ -27,11 +27,12 @@ while True:
 
     # REALLY prevents lag. Run once every **10** frames (10secs).
     if iteration % 10 == 0:
+        # Does not help the lag situation scans every block in the game for structures
         for x in range(256):
-            for y in range(-196, 61):
+            for y in range(-196, 65):
                 for z in range(128):
-                    if game.getBlock(x, y, z) in (58, 49,):
-                        pass
+                    pass
+                    ## if game.getBlock(x, y, z) in (58, 49,):
 
     events = game.pollBlockHits()
 
