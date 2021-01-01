@@ -1,6 +1,9 @@
-from making_mcpi_real import game
+import mcpi.minecraft as minecraft
 from mcpi.vec3 import Vec3
-from errors import *
+from random import choice
+from _errors import *
+
+game = minecraft.Minecraft.create()
 
 enchantments = ("Protection", "Fire Protection", "Feather Falling", "Blast Protection", "Projectile Protection")
 
@@ -18,5 +21,8 @@ if open("world_spawn.dat").read() == "":
         if game.getBlock(0, y, 0) != 0:
             break
         y -= 1
+    open("world_spawn.dat", 'w').write(f"0, {y}, 0")
     world_spawn = Vec3(0, y, 0)
-    del y
+
+if open("nether.dat").read() == "":
+    choice(["N", "N", "N", "N", "N", "N"])

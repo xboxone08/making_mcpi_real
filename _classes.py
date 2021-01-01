@@ -1,11 +1,11 @@
-from _internal import world_spawn
-from errors import *
+from mcpi.vec3 import Vec3
+from _errors import *
 
 
 class Sword:
     def __init__(self, sword_type: str, enchantments: list) -> None:
         self.enchantments = enchantments
-        assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "diamond"))
+        assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "netherite"))
         self.type = sword_type
 
     def create(self, material="wood"):
@@ -32,7 +32,7 @@ class Sword:
                 self.type = "netherite"
             else:
                 raise UnknownSwordError
-        elif material in ("gold", "stone", "iron", "diamond"):
+        elif material in ("gold", "stone", "iron", "diamond", "netherite"):
             self.enchantments.clear()
             self.type = material
         else:
@@ -49,7 +49,7 @@ class Sword:
         sword_types = ('', '', '', '', "gold", "stone", "iron", "diamond", "netherite")
         if self.type == "wood":
             return 4
-        if self.type != '':
+        elif self.type != '' and self.type in sword_types:
             return sword_types.index(self.type)
 
     def get_attack_damage_with_enchantments(self) -> float:
@@ -72,10 +72,11 @@ class Player:
                  is_admin=False) -> None:
         self.id: int = player_id
         self.is_admin: bool = is_admin
-        self.spawnpoint = world_spawn
-        assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "diamond"))
+        world_spawn: str = open("world_spawn.dat").read()
+        self.spawnpoint = Vec3(world_spawn[:world_spawn.index(",")], world_spawn[world_spawn.rindex(","):],
+                               world_spawn[:world_spawn.rindex(",")])
+        assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "netherite"))
         self.sword: Sword = Sword(sword_type, enchantments)
-
 
     def create_sword(self, material="wood") -> None:
         self.sword.create()
@@ -94,5 +95,3 @@ class Player:
                     return globals().get(symbol)
                 else:
                     return None
-            else:
-                return None
