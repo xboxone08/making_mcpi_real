@@ -29,7 +29,7 @@ while True:
     if iteration % 10 == 0:
         # Does not help the lag situation scans every block in the game for structures
         for x in range(256):
-            for y in range(61):
+            for y in range(65):
                 for z in range(128):
                     pass
                     ## if game.getBlock(x, y, z) in (58, 49,):
@@ -49,7 +49,7 @@ while True:
                     and game.getBlock(event.pos.x - 1,
                                       event.pos.y - 1,
                                       event.pos.z - 1)) != 0:
-                Player.get_player(event.entityId).spawnpoint = Vec3()
+                Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x - 1, event.pos.y, event.pos.z - 1)
 
             # S
             elif (game.getBlock(event.pos.x, event.pos.y, event.pos.z + 1) == 0
@@ -60,7 +60,7 @@ while True:
                                     event.pos.x - 1,
                                     event.pos.y - 1,
                                     event.pos.z - 1) != 0) != 0:
-                pass
+                Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x, event.pos.y, event.pos.z + 1)
 
             # E
             elif (game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 0
@@ -70,7 +70,7 @@ while True:
                   and game.getBlock(event.pos.x - 1,
                                     event.pos.y - 1,
                                     event.pos.z - 1) != 0):
-                pass
+                Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x + 1, event.pos.y, event.pos.z)
             else:
                 rand_dir: str = choice(("SE", "SW", "NE", "W"))
                 if (rand_dir == "W" and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 0
@@ -82,6 +82,6 @@ while True:
                             event.pos.x - 1,
                             event.pos.y - 1,
                             event.pos.z) != 0):
-                    pass
+                    Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x - 1, event.pos.y, event.pos.z)
 
     iteration += 1
