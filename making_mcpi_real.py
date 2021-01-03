@@ -12,7 +12,7 @@ clock = pygame.time.Clock()
 iteration: int = 1
 
 # Recognize first player to join as admin
-admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="netherite", enchantments={
+admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="netherite", sword_enchantments={
         "sharpness": 5, "fire_aspect": 2}, is_admin=True)
 
 while True:
@@ -27,7 +27,7 @@ while True:
 
     # REALLY prevents lag. Run once every **10** frames (10secs).
     if iteration % 10 == 0:
-        # Does not help the lag situation scans every block in the game for structures
+        # Does not help the lag situation. Scans every block in the game for structures.
         for x in range(256):
             for y in range(65):
                 for z in range(128):

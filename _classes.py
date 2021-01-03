@@ -3,7 +3,7 @@ from _errors import *
 
 
 class Sword:
-    def __init__(self, sword_type: str, enchantments: list) -> None:
+    def __init__(self, sword_type: str, enchantments: dict) -> None:
         self.enchantments = enchantments
         assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "netherite"))
         self.type = sword_type
@@ -14,24 +14,11 @@ class Sword:
                 "wood", "gold", "stone", "iron", "diamond", "netherite") else self.type
 
     def upgrade(self, material="next") -> None:
+        sword_types = ("wood", "gold", "stone", "iron", "diamond", "netherite")
+
         if material == "next":
-            if self.type == "wood":
-                self.enchantments.clear()
-                self.type = "gold"
-            elif self.type == "gold":
-                self.enchantments.clear()
-                self.type = "stone"
-            elif self.type == "stone":
-                self.enchantments.clear()
-                self.type = "iron"
-            elif self.type == "iron":
-                self.enchantments.clear()
-                self.type = "diamond"
-            elif self.type == "diamond":
-                self.enchantments.clear()
-                self.type = "netherite"
-            else:
-                raise UnknownSwordError
+            if material in sword_types:
+                return sword_types[sword_types.index(material) + 1]
         elif material in ("gold", "stone", "iron", "diamond", "netherite"):
             self.enchantments.clear()
             self.type = material
@@ -40,12 +27,13 @@ class Sword:
 
     def enchant(self, enchantment: str) -> None:
         if enchantment == "sharpness" or enchantment == "fire_aspect":
-            self.enchantments.append(enchantment)
+            # TODO
+            self.enchantments[enchantment] = 3
         else:
             raise UnknownEnchantmentError
 
     def get_attack_damage(self) -> int:
-        # Numbers are from Bedrock
+        # Numbers are from Bedrock Edition
         sword_types = ('', '', '', '', "gold", "stone", "iron", "diamond", "netherite")
         if self.type == "wood":
             return 4
@@ -53,7 +41,6 @@ class Sword:
             return sword_types.index(self.type)
 
     def get_attack_damage_with_enchantments(self) -> float:
-        # Assumes Sharpness V, the enchanter always enchants to max level.
         if "sharpness" in self.enchantments:
             if self.type == "wood" or self.type == "gold":
                 return 11.25
@@ -63,12 +50,14 @@ class Sword:
                 return 13.25
             elif self.type == "diamond":
                 return 14.25
+            elif self.type == "netherite":
+                return 15.25
         else:
             return self.get_attack_damage()
 
 
 class Player:
-    def __init__(self, player_id: int, sword_type="none", enchantments=[],
+    def __init__(self, player_id: int, sword_type="none", sword_enchantments={},
                  is_admin=False) -> None:
         self.id: int = player_id
         self.is_admin: bool = is_admin
@@ -76,10 +65,13 @@ class Player:
         self.spawnpoint = Vec3(world_spawn[:world_spawn.index(",")], world_spawn[world_spawn.rindex(","):],
                                world_spawn[:world_spawn.rindex(",")])
         assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "netherite"))
-        self.sword: Sword = Sword(sword_type, enchantments)
+        self.sword: Sword = Sword(sword_type, sword_enchantments)
+        self.health = 20
+        self.absorption = 0
+        self.effects = {}
 
     def create_sword(self, material="wood") -> None:
-        self.sword.create()
+        self.sword.create(material)
 
     def upgrade_sword(self, material="next") -> None:
         self.sword.upgrade(material)

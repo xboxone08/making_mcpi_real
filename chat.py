@@ -9,12 +9,25 @@ clock = pygame.time.Clock()
 
 game = minecraft.Minecraft.create()
 
+print("Starting main mod")
+
+sleep(5)
+
 Popen(["/usr/bin/python3", "/home/pi/Documents/making_mcpi_real/making_mcpi_real.py"])
 
-sleep(10)
+print("Done")
+
+sleep(5)
+
+print("Starting chat mod...")
+
+iteration: int = 1
 
 while True:
     clock.tick(1)
+
+    if iteration == 1:
+        print("Done")
 
     command = input(">")
     if command[0] != "/":
