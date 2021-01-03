@@ -25,12 +25,13 @@ class Sword:
         else:
             raise UnknownSwordError
 
-    def enchant(self, enchantment: str) -> None:
-        if enchantment == "sharpness" or enchantment == "fire_aspect":
-            # TODO
-            self.enchantments[enchantment] = 3
-        else:
-            raise UnknownEnchantmentError
+    def enchant(self, enchantment: str, level=1) -> None:
+        if enchantment == "sharpness":
+            if level <= 5:
+                self.enchantments["sharpness"] = level
+        if enchantment == "fire_aspect":
+            if level <= 2:
+                self.enchantments["fire_aspect"] = level
 
     def get_attack_damage(self) -> int:
         # Numbers are from Bedrock Edition
@@ -42,16 +43,7 @@ class Sword:
 
     def get_attack_damage_with_enchantments(self) -> float:
         if "sharpness" in self.enchantments:
-            if self.type == "wood" or self.type == "gold":
-                return 11.25
-            elif self.type == "stone":
-                return 12.25
-            elif self.type == "iron":
-                return 13.25
-            elif self.type == "diamond":
-                return 14.25
-            elif self.type == "netherite":
-                return 15.25
+            return self.get_attack_damage() + 1.25 * self.enchantments.get("sharpness")
         else:
             return self.get_attack_damage()
 
@@ -76,8 +68,8 @@ class Player:
     def upgrade_sword(self, material="next") -> None:
         self.sword.upgrade(material)
 
-    def enchant_sword(self, enchantment: str) -> None:
-        self.sword.enchant(enchantment)
+    def enchant_sword(self, enchantment: str, level=1) -> None:
+        self.sword.enchant(enchantment, level)
 
     @staticmethod
     def get_player(player_id: int):

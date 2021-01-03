@@ -52,6 +52,7 @@ while True:
                                     event.pos.y - 1,
                                     event.pos.z - 1) != 0) != 0:
                 Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x, event.pos.y, event.pos.z + 1)
+                game.postToChat("Respawn point set")
 
             # E
             elif (game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 0
@@ -62,8 +63,9 @@ while True:
                                     event.pos.y - 1,
                                     event.pos.z - 1) != 0):
                 Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x + 1, event.pos.y, event.pos.z)
+                game.postToChat("Respawn point set")
             else:
-                rand_dir: str = choice(("SE", "SW", "NE", "W"))
+                rand_dir: str = choice(("SE", "SW", "NE", "W", "N"))
                 if (rand_dir == "W" and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 0
                         and game.getBlock(
                             event.pos.x - 1,
@@ -74,5 +76,54 @@ while True:
                             event.pos.y - 1,
                             event.pos.z) != 0):
                     Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x - 1, event.pos.y, event.pos.z)
+                    game.postToChat("Respawn point set")
+
+                elif (rand_dir == "NE" and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z - 1) == 0
+                        and game.getBlock(
+                            event.pos.x + 1,
+                            event.pos.y + 1,
+                            event.pos.z - 1) == 0
+                        and game.getBlock(
+                            event.pos.x + 1,
+                            event.pos.y - 1,
+                            event.pos.z - 1) != 0):
+                    Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x - 1, event.pos.y, event.pos.z)
+                    game.postToChat("Respawn point set")
+
+                elif (rand_dir == "SW" and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z + 1) == 0
+                        and game.getBlock(
+                            event.pos.x - 1,
+                            event.pos.y + 1,
+                            event.pos.z + 1) == 0
+                        and game.getBlock(
+                            event.pos.x - 1,
+                            event.pos.y - 1,
+                            event.pos.z + 1) != 0):
+                    Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x - 1, event.pos.y, event.pos.z)
+                    game.postToChat("Respawn point set")
+
+                elif (rand_dir == "SE" and game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z + 1) == 0
+                        and game.getBlock(
+                            event.pos.x + 1,
+                            event.pos.y + 1,
+                            event.pos.z + 1) == 0
+                        and game.getBlock(
+                            event.pos.x + 1,
+                            event.pos.y - 1,
+                            event.pos.z + 1) != 0):
+                    Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x - 1, event.pos.y, event.pos.z)
+                    game.postToChat("Respawn point set")
+
+                elif (rand_dir == "N" and game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z - 1) == 0
+                        and game.getBlock(
+                            event.pos.x,
+                            event.pos.y + 1,
+                            event.pos.z - 1) == 0
+                        and game.getBlock(
+                            event.pos.x - 1,
+                            event.pos.y - 1,
+                            event.pos.z - 1) != 0):
+                    Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x - 1, event.pos.y, event.pos.z)
+                    game.postToChat("Respawn point set")
 
     iteration += 1
