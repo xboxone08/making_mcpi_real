@@ -1,5 +1,6 @@
 import mcpi.minecraft as minecraft
 from random import choice
+from time import sleep
 from _classes import *
 import pygame
 
@@ -14,6 +15,8 @@ iteration: int = 1
 # Recognize first player to join as admin
 admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="netherite", sword_enchantments={
         "sharpness": 5, "fire_aspect": 2}, is_admin=True)
+
+sleep(9)
 
 while True:
     # Prevents lag, VERY slow fps
@@ -125,5 +128,7 @@ while True:
                             event.pos.z - 1) != 0):
                     Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x - 1, event.pos.y, event.pos.z)
                     game.postToChat("Respawn point set")
+        elif game.getBlock(event.pos) == 22:  # Lapis Block
+            game.setBlock(event.pos, 8)  # Water
 
     iteration += 1
