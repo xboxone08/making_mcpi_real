@@ -16,9 +16,6 @@ iteration: int = 1
 while True:
     clock.tick(1)
 
-    if iteration == 1:
-        print("Done")
-
     command = input(">")
     if command[0] != "/":
         game.postToChat("<StevePi_0> [ADMIN] " + command)
