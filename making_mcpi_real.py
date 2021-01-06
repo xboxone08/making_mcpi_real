@@ -23,10 +23,8 @@ while True:
     clock.tick(1)
 
     # Recognizing players
-    counter: int = 1
     for player in game.getPlayerEntityIds():
-        Player(player[counter])
-        counter += 1
+        Player(player)
 
     events = game.pollBlockHits()
 
