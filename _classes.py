@@ -53,13 +53,13 @@ class Player:
                  is_admin=False) -> None:
         self.id: int = player_id
         self.is_admin: bool = is_admin
-        world_spawn: str = open("world_spawn.dat").read()
         self.spawnpoint = Vec3(0, 0, 0)
         assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "netherite"))
         self.sword: Sword = Sword(sword_type, sword_enchantments)
         self.health = 20
         self.absorption = 0
         self.effects = {}
+        self.xp = 0
 
     def create_sword(self, material="wood") -> None:
         self.sword.create(material)

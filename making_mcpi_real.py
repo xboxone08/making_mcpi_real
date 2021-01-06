@@ -126,7 +126,9 @@ while True:
                             event.pos.z - 1) != 0):
                     Player.get_player(event.entityId).spawnpoint = Vec3(event.pos.x - 1, event.pos.y, event.pos.z)
                     game.postToChat("Respawn point set")
-        elif game.getBlock(event.pos) == 22:  # Lapis Block
+        elif game.getBlock(event.pos) == 22:  # Lapis Lazuli Block
             game.setBlock(event.pos, 8)  # Water
+        elif game.getBlock(event.pos) == 8:
+            game.setBlock(79)
 
     iteration += 1
