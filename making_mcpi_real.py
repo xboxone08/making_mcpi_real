@@ -26,7 +26,7 @@ while True:
     for player in game.getPlayerEntityIds():
         Player(player)
 
-    events = game.pollBlockHits()
+    events = game.events.pollBlockHits()
 
     for event in events:
         if game.getBlock(event.pos) == 46:  # TNT
