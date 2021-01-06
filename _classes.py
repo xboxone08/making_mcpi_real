@@ -1,5 +1,5 @@
-from mcpi.vec3 import Vec3
 from _errors import *
+import _internal
 
 
 class Sword:
@@ -54,8 +54,7 @@ class Player:
         self.id: int = player_id
         self.is_admin: bool = is_admin
         world_spawn: str = open("world_spawn.dat").read()
-        self.spawnpoint = Vec3(world_spawn[:world_spawn.index(",")], world_spawn[world_spawn.rindex(","):],
-                               world_spawn[:world_spawn.rindex(",")])
+        self.spawnpoint = _internal.world_spawn
         assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "netherite"))
         self.sword: Sword = Sword(sword_type, sword_enchantments)
         self.health = 20
