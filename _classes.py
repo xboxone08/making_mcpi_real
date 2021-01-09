@@ -5,7 +5,8 @@ from mcpi.vec3 import Vec3
 class Sword:
     def __init__(self, sword_type: str, enchantments: dict) -> None:
         self.enchantments = enchantments
-        assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "netherite"))
+        assert (sword_type in ("none", "wood", "gold",
+                               "stone", "iron", "diamond", "netherite"))
         self.type = sword_type
 
     def create(self, material="wood"):
@@ -35,7 +36,8 @@ class Sword:
 
     def get_attack_damage(self) -> int:
         # Numbers are from Bedrock Edition
-        sword_types = ('', '', '', '', "gold", "stone", "iron", "diamond", "netherite")
+        sword_types = ('', '', '', '', "gold", "stone",
+                       "iron", "diamond", "netherite")
         if self.type == "wood":
             return 4
         elif self.type != '' and self.type in sword_types:
@@ -54,7 +56,8 @@ class Player:
         self.id: int = player_id
         self.is_admin: bool = is_admin
         self.spawnpoint = Vec3(0, 0, 0)
-        assert (sword_type in ("none", "wood", "gold", "stone", "iron", "diamond", "netherite"))
+        assert (sword_type in ("none", "wood", "gold",
+                               "stone", "iron", "diamond", "netherite"))
         self.sword: Sword = Sword(sword_type, sword_enchantments)
         self.health = 20
         self.absorption = 0
@@ -63,12 +66,19 @@ class Player:
 
     def create_sword(self, material="wood") -> None:
         self.sword.create(material)
+        if self.is_admin:
+            open("sword.dat", 'w').write(
+                self.sword.type + str(self.sword.enchantments))
 
     def upgrade_sword(self, material="next") -> None:
         self.sword.upgrade(material)
+        open("sword.dat", 'w').write(
+            self.sword.type + str(self.sword.enchantments))
 
     def enchant_sword(self, enchantment: str, level=1) -> None:
         self.sword.enchant(enchantment, level)
+        open("sword.dat", 'w').write(
+            self.sword.type + str(self.sword.enchantments))
 
     @staticmethod
     def get_player(player_id: int):

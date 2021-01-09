@@ -5,7 +5,8 @@ from _errors import *
 
 game = minecraft.Minecraft.create()
 
-enchantments = ("Protection", "Fire Protection", "Feather Falling", "Blast Protection", "Projectile Protection")
+enchantments = ("Protection", "Fire Protection", "Feather Falling",
+                "Blast Protection", "Projectile Protection")
 
 
 def get_enchantment_id(enchantment):
