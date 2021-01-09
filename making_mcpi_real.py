@@ -137,7 +137,7 @@ while True:
                     game.postToChat("Respawn point set")
         elif game.getBlock(event.pos) == 22:  # Lapis Lazuli Block
             game.setBlock(event.pos, 8)  # Water
-        elif game.getBlock(event.pos) == 8:
-            game.setBlock(79)
+        # elif game.getBlock(event.pos) == 8:
+        #     game.setBlock(79)
 
     iteration += 1

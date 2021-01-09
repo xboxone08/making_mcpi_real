@@ -62,7 +62,7 @@ class Player:
         self.health = 20
         self.absorption = 0
         self.effects = {}
-        self.xp = 0
+        # self.xp = 0
 
     def create_sword(self, material="wood") -> None:
         self.sword.create(material)
