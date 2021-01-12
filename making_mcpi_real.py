@@ -139,5 +139,8 @@ while True:
             game.setBlock(event.pos, 8)  # Water
         elif game.getBlock(event.pos) == 8:
             game.setBlock(79)
+        elif game.getBlock(event.pos) == 20:  # Glass
+            # TODO: Make beacon code
+            pass
 
     iteration += 1
