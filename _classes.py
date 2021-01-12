@@ -3,7 +3,7 @@ from mcpi.vec3 import Vec3
 
 
 class Sword:
-    def __init__(self, sword_type: str, enchantments: dict) -> None:
+    def __init__(self, sword_type: str, enchantments: dict, wielder) -> None:
         self.enchantments = enchantments
         assert (sword_type in ("none", "wood", "gold",
                                "stone", "iron", "diamond", "netherite"))
@@ -13,6 +13,11 @@ class Sword:
         if self.type == "none":
             self.type = material if material in (
                 "wood", "gold", "stone", "iron", "diamond", "netherite") else self.type
+        
+        if self.wielder.is_admin:
+            with open("sword.dat", 'w') as sword_dat:
+                sword_dat.write(self.sword.type + str(self.sword.enchantments))
+                
 
     def upgrade(self, material="next") -> None:
         sword_types = ("wood", "gold", "stone", "iron", "diamond", "netherite")
@@ -26,6 +31,10 @@ class Sword:
         else:
             raise UnknownSwordError
 
+        if self.wielder.is_admin:
+            with open("sword.dat", 'w') as sword_dat:
+                sword_dat.write(self.sword.type + str(self.sword.enchantments))
+
     def enchant(self, enchantment: str, level=1) -> None:
         if enchantment == "sharpness":
             if level <= 5:
@@ -33,6 +42,10 @@ class Sword:
         if enchantment == "fire_aspect":
             if level <= 2:
                 self.enchantments["fire_aspect"] = level
+        
+        if self.wielder.is_admin:
+            with open("sword.dat", 'w') as sword_dat:
+                sword_dat.write(self.sword.type + str(self.sword.enchantments))
 
     def get_attack_damage(self) -> int:
         # Numbers are from Bedrock Edition
@@ -58,17 +71,14 @@ class Player:
         self.spawnpoint = Vec3(0, 0, 0)
         assert (sword_type in ("none", "wood", "gold",
                                "stone", "iron", "diamond", "netherite"))
-        self.sword: Sword = Sword(sword_type, sword_enchantments)
+        self.sword: Sword = Sword(sword_type, sword_enchantments, self)
         self.health = 20
         self.absorption = 0
         self.effects = {}
-        # self.xp = 0
+        self.xp = 0
 
     def create_sword(self, material="wood") -> None:
         self.sword.create(material)
-        if self.is_admin:
-            open("sword.dat", 'w').write(
-                self.sword.type + str(self.sword.enchantments))
 
     def upgrade_sword(self, material="next") -> None:
         self.sword.upgrade(material)
