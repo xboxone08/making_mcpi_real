@@ -17,7 +17,6 @@ class Sword:
         if self.wielder.is_admin:
             with open("sword.dat", 'w') as sword_dat:
                 sword_dat.write(self.sword.type + str(self.sword.enchantments))
-                sword_dat.close()
                 
 
     def upgrade(self, material="next") -> None:
@@ -35,7 +34,6 @@ class Sword:
         if self.wielder.is_admin:
             with open("sword.dat", 'w') as sword_dat:
                 sword_dat.write(self.sword.type + str(self.sword.enchantments))
-                sword_dat.close()
 
     def enchant(self, enchantment: str, level=1) -> None:
         if enchantment == "sharpness":
@@ -48,7 +46,6 @@ class Sword:
         if self.wielder.is_admin:
             with open("sword.dat", 'w') as sword_dat:
                 sword_dat.write(self.sword.type + str(self.sword.enchantments))
-                sword_dat.close()
 
     def get_attack_damage(self) -> int:
         # Numbers are from Bedrock Edition
