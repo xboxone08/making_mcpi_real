@@ -1,7 +1,8 @@
-import mcpi.minecraft as minecraft
+from typing import Literal
 from time import sleep
-from _classes import *
 from keyboard import on_release_key
+import mcpi.minecraft as minecraft
+from _classes import Player
 
 game = minecraft.Minecraft.create()
 

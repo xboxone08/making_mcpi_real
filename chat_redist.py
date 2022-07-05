@@ -5,3 +5,4 @@ game = minecraft.Minecraft.create("192.168.1.221")
 
 while True:
     game.postToChat(input(">"))
+    sleep(0.2)
