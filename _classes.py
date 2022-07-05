@@ -11,7 +11,7 @@ class Sword:
 
         if self.wielder.is_admin:
             with open("sword.dat", 'w') as sword_dat:
-                sword_dat.write(self.sword.type + "\n" + str(self.sword.enchantments))
+                sword_dat.write(self.type + "\n" + str(self.sword.enchantments))
 
     def upgrade(self, material: Literal["wood", "gold", "stone", "iron", "diamond", "netherite", "next"] = "next") -> None:
         sword_types = ("none", "wood", "gold", "stone",
