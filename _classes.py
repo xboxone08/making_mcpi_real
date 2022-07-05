@@ -1,26 +1,21 @@
-from _errors import *
+from __future__ import annotations
+from typing import Literal
 from mcpi.vec3 import Vec3
 
 
 class Sword:
-    def __init__(self, sword_type: str, enchantments: dict, wielder) -> None:
+    def __init__(self, sword_type: Literal["wood", "gold", "stone", "iron", "diamond", "netherite"], enchantments: dict, wielder: Player) -> None:
         self.enchantments = enchantments
-        assert (sword_type in ("none", "wood", "gold",
-                               "stone", "iron", "diamond", "netherite"))
         self.type = sword_type
+        self.wielder = wielder
 
-    def create(self, material="wood"):
-        if self.type == "none":
-            self.type = material if material in (
-                "wood", "gold", "stone", "iron", "diamond", "netherite") else self.type
-        
         if self.wielder.is_admin:
             with open("sword.dat", 'w') as sword_dat:
-                sword_dat.write(self.sword.type + str(self.sword.enchantments))
-                
+                sword_dat.write(self.sword.type + "\n" + str(self.sword.enchantments))
 
-    def upgrade(self, material="next") -> None:
-        sword_types = ("wood", "gold", "stone", "iron", "diamond", "netherite")
+    def upgrade(self, material: Literal["wood", "gold", "stone", "iron", "diamond", "netherite", "next"] = "next") -> None:
+        sword_types = ("none", "wood", "gold", "stone",
+                       "iron", "diamond", "netherite")
 
         if material == "next":
             if material in sword_types:
@@ -28,8 +23,6 @@ class Sword:
         elif material in ("gold", "stone", "iron", "diamond", "netherite"):
             self.enchantments.clear()
             self.type = material
-        else:
-            raise UnknownSwordError
 
         if self.wielder.is_admin:
             with open("sword.dat", 'w') as sword_dat:
@@ -37,23 +30,21 @@ class Sword:
 
     def enchant(self, enchantment: str, level=1) -> None:
         if enchantment == "sharpness":
-            if level <= 5:
-                self.enchantments["sharpness"] = level
+            self.enchantments["sharpness"] = level
         if enchantment == "fire_aspect":
-            if level <= 2:
-                self.enchantments["fire_aspect"] = level
-        
+            self.enchantments["fire_aspect"] = level
+
         if self.wielder.is_admin:
             with open("sword.dat", 'w') as sword_dat:
                 sword_dat.write(self.sword.type + str(self.sword.enchantments))
 
     def get_attack_damage(self) -> int:
         # Numbers are from Bedrock Edition
-        sword_types = ('', '', '', '', "gold", "stone",
+        sword_types = ("none", '', '', '', "gold", "stone",
                        "iron", "diamond", "netherite")
         if self.type == "wood":
             return 4
-        elif self.type != '' and self.type in sword_types:
+        else:
             return sword_types.index(self.type)
 
     def get_attack_damage_with_enchantments(self) -> float:
@@ -64,23 +55,18 @@ class Sword:
 
 
 class Player:
-    def __init__(self, player_id: int, sword_type="none", sword_enchantments={},
+    def __init__(self, player_id: int, sword_type: Literal["none", "wood", "gold", "stone", "iron", "diamond", "netherite"] = "none", sword_enchantments={},
                  is_admin=False) -> None:
         self.id: int = player_id
         self.is_admin: bool = is_admin
         self.spawnpoint = Vec3(0, 0, 0)
-        assert (sword_type in ("none", "wood", "gold",
-                               "stone", "iron", "diamond", "netherite"))
         self.sword: Sword = Sword(sword_type, sword_enchantments, self)
         self.health = 20
         self.absorption = 0
         self.effects = {}
         self.xp = 0
 
-    def create_sword(self, material="wood") -> None:
-        self.sword.create(material)
-
-    def upgrade_sword(self, material="next") -> None:
+    def upgrade_sword(self, material: Literal["wood", "gold", "stone", "iron", "diamond", "netherite", "next"] = "next") -> None:
         self.sword.upgrade(material)
         open("sword.dat", 'w').write(
             self.sword.type + str(self.sword.enchantments))
