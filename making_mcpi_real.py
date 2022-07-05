@@ -63,7 +63,7 @@ while True:
         if game.getBlock(event.pos) == 46:  # TNT
             game.setBlock(event.pos, 46, 1)  # "Primeable" TNT
         elif game.getBlock(event.pos) == 35 and game.getBlockWithData(event.pos).data == 14:  # Red wool
-            game.setBlock(event.pos, 246)  # Glowing Obsidin
+            game.setBlock(event.pos, 246)  # Glowing Obsidian
         elif game.getBlock(event.pos) == 35 and game.getBlockWithData(event.pos).data == 11 and op:  # Blue Wool
             game.setBlock(event.pos, 8)  # Flowing Water
         elif game.getBlock(event.pos) == 35 and game.getBlockWithData(event.pos).data == 1 and op:  # Orange wool
