@@ -34,7 +34,7 @@ game.saveCheckpoint()
 if i == 1:
     # If run with pythonw
     try:
-        print("Started mod")  # Only runs on first iteration
+        print("Started plugin")  # Only runs on first iteration
     except:
         pass
     game.postToChat('Plugin "making_mcpi_real" activated')
