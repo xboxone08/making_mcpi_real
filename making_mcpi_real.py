@@ -29,6 +29,7 @@ def toggle_view(event):
         game.camera.setNormal(admin)
 
 
+# Makes sneaking toggle by holding shift when user clicks it once
 def sprint(_):
     global sprinting
     if sprinting:
