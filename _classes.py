@@ -36,7 +36,7 @@ class Sword:
 
         if self.wielder.is_admin:
             with open("sword.dat", 'w') as sword_dat:
-                sword_dat.write(self..type + str(self..enchantments))
+                sword_dat.write(self.type + str(self.enchantments))
 
     def get_attack_damage(self) -> int:
         # Numbers are from Bedrock Edition
