@@ -1,6 +1,6 @@
 from typing import Literal
 from time import sleep
-from keyboard import on_release_key
+from keyboard import on_press_key, press, release
 import mcpi.minecraft as minecraft
 from _classes import Player
 
@@ -18,15 +18,39 @@ view: Literal["1st", "3rd"] = "1st"
 
 def toggle_view(event):
     global view
+    global admin
+    # BUG
     if view == "1st":
         view = "3rd"
         # Make the camera "follow" the "admin" (local player)
-        game.camera.setFollow(game.getPlayerEntityIds()[0])
+        game.camera.setFollow(admin)
     elif view == "3rd":
         view = "1st"
-        game.camera.setNormal(game.getPlayerEntityIds()[0])
+        game.camera.setNormal(admin)
 
-on_release_key("f5", toggle_view)
+
+def sprint(_):
+    global sprinting
+    if sprinting:
+        sprinting = False
+        # TODO
+    else:
+        sprinting = True
+        # TODO
+
+
+def sneak(_):
+    if sneaking:
+        release("shift")
+        sneaking = False
+    else:
+        press("shift")
+        sneaking = True
+
+
+on_press_key("f5", toggle_view)
+on_press_key("shift", sneak)
+on_press_key("ctrl", sprint)
 
 game.saveCheckpoint()
 
