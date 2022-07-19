@@ -1,6 +1,9 @@
 from __future__ import annotations
 from typing import Literal
 from mcpi.vec3 import Vec3
+import mcpi.minecraft as minecraft
+
+game = minecraft.Minecraft.create()
 
 
 class Sword:
@@ -29,10 +32,7 @@ class Sword:
                 sword_dat.write(self.type + str(self.enchantments))
 
     def enchant(self, enchantment: str, level=1) -> None:
-        if enchantment == "sharpness":
-            self.enchantments["sharpness"] = level
-        if enchantment == "fire_aspect":
-            self.enchantments["fire_aspect"] = level
+        self.enchantments[enchantment] = level
 
         if self.wielder.is_admin:
             with open("sword.dat", 'w') as sword_dat:
@@ -64,6 +64,7 @@ class Player:
         self.health = 20
         self.absorption = 0
         self.effects = {}
+        self.alive = True
         self.xp = 0
 
     def upgrade_sword(self, material: Literal["wood", "gold", "stone", "iron", "diamond", "netherite", "next"] = "next") -> None:
@@ -76,10 +77,42 @@ class Player:
         open("sword.dat", 'w').write(
             self.sword.type + str(self.sword.enchantments))
 
-    @staticmethod
-    def get_player(player_id: int):
+    def tp(self, *args):
+        """tp(vec3: mcpi.vec3.Vec3)
+        Teleport player to the coordinates in the Vec3 object vec3
+        tp(coords: Iterable)
+        Teleport the player to the coordinates x, y, and z
+        tp(x: float, y: float, z: float)
+        Teleport the player to the coordinates specified by x, y, and z
+        """
+        if len(args) == 1:
+            try:
+                args[0].x = x
+                args[0].y = y
+                args[0].z = z
+            except AttributeError:
+                x, y, z = args[0]
+        else:
+            x = args[0]
+            y = args[1]
+            z = args[2]
+        game.entity.setTilePos(id, x, y, z)
+
+    def die(self):
+        # TODO Implement situational death messages
+        game.postToChat("StevePi #" + self.id + " died")
+        self.tp(self.spawnpoint)
+
+    def hurt(self, damage: int):
+        self.health -= damage
+        if self.health <= 0:
+            self.health = 0  # Sanitize
+            self.die()
+
+    @classmethod
+    def get_player(cls, player_id: int):
         for symbol in globals():
-            if type(globals().get(symbol)) == Player:
+            if type(globals().get(symbol)) == cls:
                 if globals().get(symbol).id == player_id:
                     return globals().get(symbol)
                 else:

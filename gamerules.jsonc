@@ -1,0 +1,14 @@
+{
+    "doDaylightCycle": false, // TODO
+    "doImmediateRespawn": true,
+    "doMobLoot": false,  // TODO
+    "doMobSpawning": false,  // TODO
+    "fireDamage": false,  // TODO
+    "keepInventory": false,
+    "mobGriefing": false,  // TODO
+    "naturalRegeneration": false,  // TODO
+    "pvp": false, // TODO
+    "respawnBlocksExplode": false, // TODO
+    "showDeathMessages": true,
+    "tntExplodes": true
+}
