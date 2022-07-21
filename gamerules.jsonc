@@ -1,4 +1,5 @@
 {
+    // Subset of 
     "doDaylightCycle": false, // TODO
     "doImmediateRespawn": true,
     "doMobLoot": false,  // TODO

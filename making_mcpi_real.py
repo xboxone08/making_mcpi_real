@@ -80,35 +80,37 @@ while True:
 
     # Handles right-clicks w/ sword depending on what is right-clicked
     for event in events:
-        if event.entityId == admin.id:
-            op = True
-        else:
-            False
+        bnd = game.getBlockWithData()
+        block_id = bnd.id
+        data = bnd.data
+
+        op = True if event.entityId == admin.id else False
+        
         # Block replacements for "unplaceable" blocks
-        if game.getBlock(event.pos) == 46:  # TNT
+        if block_id == 46:  # TNT
             game.setBlock(event.pos, 46, 1)  # "Primeable" TNT
-        elif game.getBlock(event.pos) == 35 and game.getBlockWithData(event.pos).data == 14:  # Red wool
+        elif block_id == 35 and data == 14:  # Red wool
             game.setBlock(event.pos, 246)  # Glowing Obsidian
-        elif game.getBlock(event.pos) == 35 and game.getBlockWithData(event.pos).data == 11 and op:  # Blue Wool
+        elif block_id == 35 and data == 11 and op:  # Blue Wool
             game.setBlock(event.pos, 8)  # Flowing Water
-        elif game.getBlock(event.pos) == 35 and game.getBlockWithData(event.pos).data == 1 and op:  # Orange wool
+        elif block_id == 35 and data == 1 and op:  # Orange wool
             game.setBlock(event.pos, 10)  # Flowing Lava
-        elif game.getBlock(event.pos) == 49 and op:  # Obsidian
+        elif block_id == 49 and op:  # Obsidian
             game.setBlock(event.pos, 7)  # Bedrock
-        elif game.getBlock(event.pos) == 20 and op:  # Glass
+        elif block_id == 20 and op:  # Glass
             game.setBlock(event.pos, 95)  # Invisible Bedrock
         
         # Setting spawnpoint using bed
-        elif game.getBlock(event.pos) == 26:
+        elif block_id == 26:
             open("rspnpt.dat", 'w').write(str(event.pos))
             game.postToChat("Respawn point set")
         
         # Save checkpoint
-        elif game.getBlock(event.pos) == 47:  # Bookshelf
+        elif block_id == 47:  # Bookshelf
             game.saveCheckpoint()
             game.postToChat("Restore point set")
         # Restore to last checkpoint
-        elif game.getBlock(event.pos) == 247 and (  # Nether Reactor Core
+        elif block_id == 247 and (  # Nether Reactor Core
                 game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 47  # Bookshelf anywhere around it
                     or game.getBlock(event.pos.x - 1, event.pos.y, event.pos.z) == 47
                     or game.getBlock(event.pos.x + 1, event.pos.y, event.pos.z) == 47
