@@ -58,7 +58,7 @@ while True:
 
     # Handles right-clicks w/ sword depending on what is right-clicked
     for event in events:
-        bnd = game.getBlockWithData()
+        bnd = game.getBlockWithData(event.pos)
         block_id = bnd.id
         data = bnd.data
 
