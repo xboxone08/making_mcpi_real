@@ -6,6 +6,8 @@ from _classes import Player
 
 game = minecraft.Minecraft.create()
 
+game.saveCheckpoint()
+
 # Set local player as the "admin"
 admin: Player = Player(game.getPlayerEntityIds()[0], sword_type="netherite", sword_enchantments={
     "sharpness": 5, "fire_aspect": 2}, is_admin=True)
@@ -29,31 +31,7 @@ def toggle_view(event):
         game.camera.setNormal(admin)
 
 
-# Makes sneaking toggle by holding shift when user clicks it once
-def sprint(_):
-    global sprinting
-    if sprinting:
-        sprinting = False
-        # TODO
-    else:
-        sprinting = True
-        # TODO
-
-
-def sneak(_):
-    if sneaking:
-        release("shift")
-        sneaking = False
-    else:
-        press("shift")
-        sneaking = True
-
-
 on_press_key("f5", toggle_view)
-on_press_key("shift", sneak)
-on_press_key("ctrl", sprint)
-
-game.saveCheckpoint()
 
 
 if i == 1:
@@ -85,7 +63,7 @@ while True:
         data = bnd.data
 
         op = True if event.entityId == admin.id else False
-        
+
         # Block replacements for "unplaceable" blocks
         if block_id == 46:  # TNT
             game.setBlock(event.pos, 46, 1)  # "Primeable" TNT
