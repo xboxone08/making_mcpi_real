@@ -18,7 +18,7 @@ game.player.setting("autojump", False)
 view: Literal["1st", "3rd"] = "1st"
 
 
-def toggle_view(event):
+def toggle_view(_):
     global view
     global admin
     # BUG
