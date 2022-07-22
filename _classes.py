@@ -63,7 +63,7 @@ class Player:
         self.sword: Sword = Sword(sword_type, sword_enchantments, self)
         self.health = 20
         self.absorption = 0
-        self.effects = {}
+        self.effects = {}  # e.g. {"poison: ["1:30", ]"}
         self.alive = True
         self.xp = 0
 
@@ -77,25 +77,7 @@ class Player:
         open("sword.dat", 'w').write(
             self.sword.type + str(self.sword.enchantments))
 
-    def tp(self, *args):
-        """tp(vec3: mcpi.vec3.Vec3)
-        Teleport player to the coordinates in the Vec3 object vec3
-        tp(coords: Iterable)
-        Teleport the player to the coordinates x, y, and z
-        tp(x: float, y: float, z: float)
-        Teleport the player to the coordinates specified by x, y, and z
-        """
-        if len(args) == 1:
-            try:
-                args[0].x = x
-                args[0].y = y
-                args[0].z = z
-            except AttributeError:
-                x, y, z = args[0]
-        else:
-            x = args[0]
-            y = args[1]
-            z = args[2]
+    def tp(self, x: int, y: int, z: int):
         game.entity.setTilePos(id, x, y, z)
 
     def die(self):
@@ -117,3 +99,9 @@ class Player:
                     return globals().get(symbol)
                 else:
                     return None
+
+
+class Chest:
+    def __init__(self, x: int, y: int, z: int):
+        self.blocks = []
+        self.pos = Vec3(x, y, z)
