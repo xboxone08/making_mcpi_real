@@ -1,5 +1,6 @@
 from time import sleep
 from typing_extensions import Literal
+from typing import List
 import mcpi.minecraft as minecraft
 import mcpi.block as block
 from keyboard import on_press_key
@@ -15,7 +16,7 @@ admin: Player = Player.create(game.getPlayerEntityIds()[0], True)
 
 game.player.setting("autojump", False)
 
-players: list[Player] = [admin]
+players: List[Player] = [admin]
 
 view: Literal["1st", "3rd"] = "1st"
 

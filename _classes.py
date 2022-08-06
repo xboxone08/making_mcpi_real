@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List, Dict
 from typing_extensions import Literal, final
 from math import floor, sqrt
 import mcpi.minecraft as minecraft
@@ -17,7 +17,7 @@ enchantment = Literal["sharpness", "smite", "bane_of_arthropods",
 
 
 class Sword:
-    def __init__(self, material: sword_material, enchantments: dict[enchantment, int], wielder: Player):
+    def __init__(self, material: sword_material, enchantments: Dict[enchantment, int], wielder: Player):
         self.material = material
         self.enchantments = enchantments
         self.wielder = wielder
@@ -37,7 +37,7 @@ class Entity:
         self.max_health: int = max_health
         self.health: int = health
         self.alive: bool = True
-        self.effects: list[Effect] = []
+        self.effects: List[Effect] = []
 
     def die(self):
         self.alive = False
@@ -68,11 +68,11 @@ class Player(Entity):
 
     def __init__(self, player_id: int, is_admin: bool = False) -> None:
         super().__init__(20, 20)
-        self.hurt_events: dict[str, int] = {}
+        self.hurt_events: Dict[str, int] = {}
         self.id: int = player_id
         self.is_admin: bool = is_admin
         self.spawnpoint: Vec3 = Vec3(0, 0, 0)
-        self.swords: list[Sword] = []
+        self.swords: List[Sword] = []
         self.sword: Optional[Sword] = None
         self.food_level = 20
         self.food_saturation_level = 5
@@ -125,7 +125,7 @@ class Player(Entity):
 
 class Chest:
     def __init__(self, x: int, y: int, z: int) -> None:
-        self.blocks = tuple()
+        self.blocks: tuple = tuple()
         self.pos = Vec3(x, y, z)
 
     def stash_blocks(self, *args) -> list:
