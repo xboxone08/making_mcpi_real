@@ -1,0 +1,14 @@
+{  
+    "doDaylightCycle": false,
+    "doImmediateRespawn": true,
+    "doMobLoot": false,
+    "doMobSpawning": false,
+    "fireDamage": false,
+    "keepInventory": false,
+    "mobGriefing": false,
+    "naturalRegeneration": false,
+    "pvp": false,
+    "respawnBlocksExplode": false,
+    "showDeathMessages": true,
+    "tntExplodes": true
+}

@@ -1,6 +1,6 @@
 from json import load, dump
 
-with open("gamerules.jsonc", 'r') as file:
+with open("gamerules.json", 'r') as file:
     gamerules = load(file)
 do_daylight_cycle: bool = gamerules["doDaylightCycle"]
 do_immediate_respawn: bool = gamerules["doImmediateRespawn"]
