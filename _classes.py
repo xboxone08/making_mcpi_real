@@ -112,7 +112,7 @@ class Player(Entity):
 
     @classmethod
     def get_player(cls, player_id: int) -> Optional[Player]:
-        for player in cls.player:
+        for player in cls.players:
             if player.id == player_id:
                 return player
 
