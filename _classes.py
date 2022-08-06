@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Optional, final
-from typing_extensions import Literal
+from typing import Optional
+from typing_extensions import Literal, final
 from math import floor, sqrt
 import mcpi.minecraft as minecraft
 from mcpi.vec3 import Vec3
